@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>DermaScan AI — Skin Insights</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#"><span class="brand-mark">✳</span><span>DermaScan<span class="brand-ai"> AI</span><small>SKIN INSIGHTS PLATFORM</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" data-view="overview"><span>⌂</span> Overview</button>
+    <button class="nav-item" data-view="newscan"><span>◎</span> New skin scan</button>
+    <button class="nav-item" data-view="history"><span>◷</span> Scan history</button>
+    <div class="nav-label learn-label">EXPLORE</div>
+    <button class="nav-item" data-view="guide"><span>◇</span> Photo guide</button>
+    <button class="nav-item" data-view="about"><span>ⓘ</span> About the model</button>
+    <div class="side-note"><span class="pulse"></span><div><b>Prototype mode</b><small>Educational research tool</small></div></div>
+    <div class="sidebar-foot">PRIVATE BY DESIGN<br><span>History stays in this browser</span></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu">☰</button>
+      <div><div class="eyebrow">SKIN HEALTH WORKSPACE</div><div class="top-title" id="pageTitle">Overview</div></div>
+      <div class="top-actions"><span class="status-chip"><i></i> System ready</span><div class="avatar">DS</div></div>
+    </header>
+
+    <section class="view active" id="overview">
+      <div class="welcome">
+        <div><div class="eyebrow mint">DERMASCAN AI / PERSONAL WORKSPACE</div><h1>A clearer view of<br><em>your skin journey.</em></h1>
+        <p>Organise skin observations, capture an image and explore an experimental AI image-classification result — all in one place.</p>
+        <button class="btn primary" data-go="newscan">Start a skin scan <span>→</span></button></div>
+        <div class="hero-art"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="scan-ring"><div class="scan-core">✳</div><span class="ring-tag tag-a">IMAGE ANALYSIS</span><span class="ring-tag tag-b">21 LABELS</span><span class="ring-tag tag-c">RESNET18 CNN</span></div></div>
+      </div>
+      <div class="notice"><span>ⓘ</span><div><b>Research prototype, not a medical service.</b><p>Model outputs are experimental and are not diagnoses. Do not use them to select medicines or treatment. For concerns about your skin, speak with a qualified healthcare professional.</p></div></div>
+      <div class="section-head"><div><div class="eyebrow">YOUR ACTIVITY</div><h2>Workspace at a glance</h2></div><button class="text-btn" data-go="history">View history →</button></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon violet">◎</div><span>Saved scans</span><strong id="scanCount">0</strong><small>Stored on this device</small></div>
+        <div class="stat-card"><div class="stat-icon teal">▧</div><span>Last activity</span><strong class="stat-date" id="lastScan">—</strong><small>Your most recent saved scan</small></div>
+        <div class="stat-card"><div class="stat-icon amber">✳</div><span>Model architecture</span><strong>ResNet18</strong><small>21 trained image labels</small></div>
+      </div>
+      <div class="section-head"><div><div class="eyebrow">GET STARTED</div><h2>Explore your workspace</h2></div></div>
+      <div class="quick-grid">
+        <button class="quick-card" data-go="newscan"><span class="quick-icon">＋</span><b>Analyse an image</b><small>Upload a photo or use your camera</small><span class="quick-arrow">↗</span></button>
+        <button class="quick-card" data-go="guide"><span class="quick-icon">▤</span><b>Capture better photos</b><small>Learn how to take a clear, useful image</small><span class="quick-arrow">↗</span></button>
+        <button class="quick-card" data-go="about"><span class="quick-icon">⌘</span><b>Understand the AI</b><small>What the model can and cannot tell you</small><span class="quick-arrow">↗</span></button>
+      </div>
+    </section>
+
+    <section class="view" id="newscan">
+      <div class="page-intro"><div class="eyebrow">IMAGE WORKFLOW</div><h1>New skin scan</h1><p>Choose a clear image, add optional observations, then run the experimental image classifier.</p></div>
+      <div class="scan-layout">
+        <div class="panel upload-panel">
+          <div class="panel-title"><div><span class="step">01</span><h3>Choose an image</h3></div><span class="soft-label">JPG · PNG · WEBP</span></div>
+          <div class="dropzone" id="dropzone">
+            <div id="emptyUpload"><div class="upload-symbol">⇧</div><h3>Bring your image into focus</h3><p>Drag and drop a photo here, or choose how to add it.</p>
+              <div class="upload-actions"><button class="btn primary" id="chooseBtn">Choose image</button><button class="btn secondary" id="cameraBtn">◎ Take photo</button></div>
+              <small>Maximum 8 MB · Minimum 64 × 64 px</small></div>
+            <div id="previewWrap" class="preview-wrap hidden"><img id="preview" alt="Selected skin image preview"><div class="preview-bar"><span id="fileName">Selected image</span><button class="text-btn" id="removeImage">Remove ×</button></div></div>
+          </div>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden>
+          <div class="panel-title symptoms-title"><div><span class="step">02</span><h3>Optional observations</h3></div><span class="soft-label">NOT USED BY CNN</span></div>
+          <p class="field-help">These notes help organise your own observations. They do not change the model's image prediction.</p>
+          <div class="form-grid">
+            <label>Area of concern<select id="bodyArea"><option value="">Choose area</option><option>Face</option><option>Scalp</option><option>Neck</option><option>Arms or hands</option><option>Chest or back</option><option>Legs or feet</option><option>Other</option></select></label>
+            <label>How long have you noticed it?<select id="duration"><option value="">Choose duration</option><option>Just noticed</option><option>A few days</option><option>1–4 weeks</option><option>More than a month</option><option>Not sure</option></select></label>
+            <label class="full">What have you noticed? <span class="muted">(optional)</span><div class="check-row"><label><input type="checkbox" name="obs" value="Itching"> Itching</label><label><input type="checkbox" name="obs" value="Redness"> Redness</label><label><input type="checkbox" name="obs" value="Dryness"> Dryness</label><label><input type="checkbox" name="obs" value="Change in appearance"> Change in appearance</label><label><input type="checkbox" name="obs" value="Tenderness"> Tenderness</label></div></label>
+            <label class="full">Private note <textarea id="notes" rows="3" placeholder="Add a note for your own records (optional)…"></textarea></label>
+          </div>
+          <div class="scan-footer"><span class="privacy-note">♧ Your notes and scan history stay in this browser.</span><button class="btn primary" id="analyzeBtn" disabled>Run image analysis <span>→</span></button></div>
+          <div id="scanStatus" class="status-message hidden" role="status"></div>
+        </div>
+        <aside class="side-panel">
+          <div class="mini-card"><div class="mini-icon">✳</div><h3>Before you scan</h3><ul><li>Use a clear, well-lit photo.</li><li>Keep the camera steady.</li><li>Include only the area you want to review.</li><li>Avoid filters or heavy editing.</li></ul></div>
+          <div class="mini-card tinted"><span class="eyebrow">IMPORTANT</span><h3>AI is not a clinician</h3><p>Image labels can be wrong, especially with varied lighting, skin tones, camera quality or conditions not represented in training data.</p></div>
+        </aside>
+      </div>
+      <div id="resultPanel" class="panel result-panel hidden"></div>
+    </section>
+
+    <section class="view" id="history">
+      <div class="page-intro"><div class="eyebrow">PERSONAL RECORD</div><h1>Scan history</h1><p>Review scans saved in this browser. Clearing browser data may remove this history.</p></div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+
+    <section class="view" id="guide">
+      <div class="page-intro"><div class="eyebrow">PHOTO GUIDE</div><h1>Make every image count.</h1><p>Good image quality can help make an image-classification experiment more consistent. It cannot guarantee a correct result.</p></div>
+      <div class="guide-grid">
+        <div class="guide-card"><div class="guide-number">01</div><div class="guide-visual light">☼</div><h3>Use soft, even light</h3><p>Choose a bright room or indirect daylight. Avoid harsh flash, deep shadows and colour filters.</p></div>
+        <div class="guide-card"><div class="guide-number">02</div><div class="guide-visual focus">◎</div><h3>Keep the image in focus</h3><p>Hold the camera steady and tap to focus if your phone supports it. Avoid blurry or pixelated photos.</p></div>
+        <div class="guide-card"><div class="guide-number">03</div><div class="guide-visual crop">▣</div><h3>Frame the area clearly</h3><p>Include the full area of interest with a little surrounding skin. Do not crop away relevant context.</p></div>
+        <div class="guide-card"><div class="guide-number">04</div><div class="guide-visual clean">◇</div><h3>Keep it natural</h3><p>Use an unedited image. Do not apply beauty filters, colour adjustments or sharpening effects.</p></div>
+      </div>
+      <div class="notice"><span>!</span><div><b>Seek professional care when concerned.</b><p>Do not delay medical advice because of an AI result. A clinician can examine your skin and consider your history.</p></div></div>
+    </section>
+
+    <section class="view" id="about">
+      <div class="page-intro"><div class="eyebrow">MODEL TRANSPARENCY</div><h1>Know what is under the hood.</h1><p>DermaScan AI is an experimental academic prototype built to demonstrate an image-classification workflow.</p></div>
+      <div class="model-hero"><div><div class="eyebrow mint">CURRENT MODEL</div><h2>ResNet18 <em>CNN</em></h2><p>A convolutional neural network architecture that learns visual patterns from labelled training images and produces scores across the labels it was trained to recognise.</p></div><div class="model-stamp">CNN<br><b>18</b></div></div>
+      <div class="stats-grid model-stats"><div class="stat-card"><span>Architecture</span><strong>ResNet18</strong><small>Convolutional neural network</small></div><div class="stat-card"><span>Output labels</span><strong>21</strong><small>Dataset-defined categories</small></div><div class="stat-card"><span>Output format</span><strong>Top 3</strong><small>Ranked model scores</small></div></div>
+      <div class="panel explainer"><h3>How an image scan works</h3><div class="process"><div><b>1</b><strong>Image input</strong><small>Image is checked and prepared.</small></div><i>→</i><div><b>2</b><strong>CNN inference</strong><small>ResNet18 processes visual features.</small></div><i>→</i><div><b>3</b><strong>Ranked output</strong><small>Top model labels and scores are shown.</small></div></div></div>
+      <div class="notice"><span>ⓘ</span><div><b>Limitations and responsible use</b><p>The training dataset may not represent all populations, skin tones, cameras or real-world conditions. Scores are not calibrated medical probabilities. The model has not been clinically validated and must not be used for diagnosis, triage, or treatment decisions.</p></div></div>
+    </section>
+    <footer>DERMASCAN AI <span>·</span> EXPERIMENTAL RESEARCH PROTOTYPE <span class="footer-right">Built for learning, not diagnosis.</span></footer>
+  </main>
+</div>
+
+<div class="modal hidden" id="cameraModal" role="dialog" aria-modal="true" aria-label="Take a photo"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">CAMERA CAPTURE</div><h3>Take a photo</h3></div><button class="close-btn" id="closeCamera">×</button></div><video id="cameraVideo" autoplay playsinline></video><canvas id="cameraCanvas" hidden></canvas><p id="cameraMessage" class="field-help">Allow camera access when your browser asks. Camera access requires a secure connection (HTTPS).</p><div class="modal-actions"><button class="btn secondary" id="switchCamera">Switch camera</button><button class="btn primary" id="captureBtn">Capture photo</button></div></div></div>
+<script src="/static/app.js"></script>
+</body></html>
